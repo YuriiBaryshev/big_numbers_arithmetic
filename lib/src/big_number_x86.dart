@@ -22,4 +22,27 @@ class BigNumberX86 extends BigNumber {
     _length = _maxBitLength ~/ _platform;
     _data = Uint32List(_length);
   }
+
+
+  @override
+  void _dataFromHex(String hexString) {
+    int originalHexStringLength = hexString.length;
+    int j = _length - 1;
+    for(int i = 0; i < originalHexStringLength; i += 8, j--) {
+      if(hexString.length >= 8) {
+        _data[j] = int.parse(hexString.substring(hexString.length - 8), radix: 16);
+        hexString = hexString.substring(0, hexString.length - 8);
+      } else {
+        _data[j] = int.parse(hexString, radix: 16);
+        hexString = "";
+      }
+    }
+
+    for(; j > 0; j--) {
+      _data[j] = 0;
+    }
+  }
+
+
+
 }
