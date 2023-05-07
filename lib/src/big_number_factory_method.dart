@@ -1,7 +1,8 @@
 ///Determines platform types for the BigNumberFactoryMethod.createBigNumber(...) method
 enum Platforms {
-  x86,    //32 bit
-  x64,    //64 bit
+  x86,      //32 bit
+  x64,      //64 bit
+  avr8bit,  //8 bit
 }
 
 /// Implements Factory Method design pattern for BigNumber data type.
