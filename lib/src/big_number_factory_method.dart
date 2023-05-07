@@ -1,3 +1,5 @@
+part of big_numbers_arithmetic;
+
 ///Determines platform types for the BigNumberFactoryMethod.createBigNumber(...) method
 enum Platforms {
   x86,      //32 bit
