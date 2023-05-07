@@ -44,5 +44,24 @@ class BigNumberX86 extends BigNumber {
   }
 
 
+  @override
+  String getHex({bool has0x = true, bool hasLeadingZeroes = true}) {
+    String hex = "";
 
+    for(int i = 0; i < _length; i++) {
+      String convertedElement = _data[i].toRadixString(16);
+      convertedElement = convertedElement.padLeft(8, '0');
+      hex += convertedElement;
+    }
+
+    if(!hasLeadingZeroes) {
+      hex = hex.replaceFirst(RegExp(r'^0+'), '');
+    }
+
+    if(has0x) {
+      hex = "0x$hex";
+    }
+
+    return hex;
+  }
 }
