@@ -9,7 +9,7 @@ enum Platforms {
 class BigNumberFactoryMethod {
   ///Constructor shouldn't be called
   BigNumberFactoryMethod() {
-    throw AssertionError("BigNumberFactoryMethod: one shouldn't create an instance "
+    throw UnsupportedError("BigNumberFactoryMethod: one shouldn't create an instance "
         "of factory method in order to create a class. The creation methods are static,"
         " so the proper way of their usage is to call them directly");
   }
