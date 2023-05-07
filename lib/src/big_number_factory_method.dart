@@ -16,13 +16,13 @@ class BigNumberFactoryMethod {
   ///Creates an instance of 32 bit based BigNumber for x86 or any other 32 bit
   ///based platforms
   static createBigNumberX86(int maxBitLength) {
-
+    throw UnimplementedError("BigNumberFactoryMethod: it hasn't been implemented yet");
   }
 
   ///Creates an instance of 64 bit based BigNumber for x64 or any other 64 bit
   ///based platform
   static createBigNumberX64(int maxBitLength) {
-
+    throw UnimplementedError("BigNumberFactoryMethod: it hasn't been implemented yet");
   }
 
   ///Creates an instance BigNumber optimized for @platform argument
