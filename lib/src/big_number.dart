@@ -38,6 +38,11 @@ abstract class BigNumber {
     _dataFromHex(hexString);
   }
 
+
   ///converting hex string into platform specific data array
   void _dataFromHex(String hexString);
+
+
+  ///getting data in hexadecimal string format
+  String getHex({bool has0x = true, bool hasLeadingZeroes = true});
 }
