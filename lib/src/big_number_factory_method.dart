@@ -27,6 +27,20 @@ class BigNumberFactoryMethod {
 
   ///Creates an instance BigNumber optimized for @platform argument
   static createBigNumber(Platforms platform, int maxBitLength) {
+    switch(platform) {
+      case Platforms.x86 : {
+        createBigNumberX86(maxBitLength);
+        break;
+      }
 
+      case Platforms.x64 : {
+        createBigNumberX64(maxBitLength);
+        break;
+      }
+
+      default : {
+        throw UnimplementedError("BigNumberFactoryMethod: unimplemented platform $platform was passed");
+      }
+    }
   }
 }
