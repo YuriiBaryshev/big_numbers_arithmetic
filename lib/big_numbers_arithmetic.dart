@@ -3,4 +3,4 @@
 /// More dartdocs go here.
 library big_numbers_arithmetic;
 
-export 'src/big_numbers_arithmetic_base.dart';
+export 'src/big_number_factory_method.dart';
