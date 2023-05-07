@@ -22,4 +22,38 @@ class BigNumberX64 extends BigNumber {
     _length = _maxBitLength ~/ _platform;
     _data = Uint64List(_length);
   }
+
+
+  @override
+  void _dataFromHex(String hexString) {
+    int originalHexStringLength = hexString.length;
+    int j = _length - 1;
+    for(int i = 0; i < originalHexStringLength; i += 16, j--) {
+      if(hexString.length >= 16) {
+        _data[j] = int.parse(hexString.substring(hexString.length - 16, hexString.length - 8), radix: 16);
+        _data[j] = _data[j] << 32;
+        _data[j] += int.parse(hexString.substring(hexString.length - 8), radix: 16);
+        hexString = hexString.substring(0, hexString.length - 16);
+      } else {
+        if(hexString.length > 8) {
+          print(hexString.substring(0, hexString.length - 8));
+          _data[j] = int.parse(hexString.substring(0, hexString.length - 8), radix: 16);
+          _data[j] = _data[j] << 32;
+          _data[j] = int.parse(hexString.substring(hexString.length - 8), radix: 16);
+          hexString = "";
+        } else {
+          _data[j] = int.parse(hexString, radix: 16);
+          hexString = "";
+        }
+      }
+    }
+
+    for(; j > 0; j--) {
+      _data[j] = 0;
+    }
+  }
+
+
+
+
 }
