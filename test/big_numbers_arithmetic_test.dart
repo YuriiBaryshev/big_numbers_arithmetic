@@ -168,6 +168,27 @@ void main() {
               reason: "${(bn1 | bn2).getHex()} is not equal ${allOnes
                   .getHex()}");
         });
+
+
+        test("and of 128 bit", () {
+          expect(zero & zero, zero,
+              reason: "${(zero & zero).getHex()} is not equal ${zero
+                  .getHex()}");
+          expect(allOnes & allOnes, allOnes,
+              reason: "${(allOnes & allOnes).getHex()} is not equal ${allOnes
+                  .getHex()}");
+          expect(zero & allOnes, zero,
+              reason: "${(zero & allOnes).getHex()} is not equal ${zero
+                  .getHex()}");
+
+          expect(bn1 & bn1, bn1,
+              reason: "${(bn1 & bn1).getHex()} is not equal ${bn1.getHex()}");
+          expect(bn2 & bn2, bn2,
+              reason: "${(bn2 & bn2).getHex()} is not equal ${bn2.getHex()}");
+          expect(bn1 & bn2, zero,
+              reason: "${(bn1 & bn2).getHex()} is not equal ${zero
+                  .getHex()}");
+        });
       });
     }
   });
