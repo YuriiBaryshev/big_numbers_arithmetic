@@ -59,8 +59,13 @@ class BigNumberX64 extends BigNumber {
     String hex = "";
 
     for(int i = 0; i < _length; i++) {
-      if(data[i].isNegative) data[i] = ~data[i];
-      String convertedElement = data[i].toRadixString(16);
+      String convertedElement;
+      if(data[i].isNegative) {
+        convertedElement = (data[i] + 0x8000000000000000).toRadixString(16);
+        convertedElement = 'f${convertedElement.substring(1)}';
+      } else {
+        convertedElement = data[i].toRadixString(16);
+      }
       convertedElement = convertedElement.padLeft(16, '0');
       hex += convertedElement;
     }
