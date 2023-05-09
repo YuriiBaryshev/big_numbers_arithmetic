@@ -64,4 +64,28 @@ class BigNumberX86 extends BigNumber {
 
     return hex;
   }
+
+
+  @override
+  int get hashCode {
+    int hash = Object.hash(_length, _maxBitLength, _platform);
+    hash ^= Object.hashAll(_data);
+    return hash;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return (other is BigNumberX86) && (super == other);
+  }
+
+
+  @override
+  BigNumberX86 operator ~() {
+    BigNumberX86 output = BigNumberX86(_maxBitLength);
+    output.setHex(getHex());
+    for(int i = 0; i < _length; i++) {
+      output._data[i] = output._data[i] ^ 0xffffffff;
+    }
+    return output;
+  }
 }

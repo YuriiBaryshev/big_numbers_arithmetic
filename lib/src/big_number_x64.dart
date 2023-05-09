@@ -74,4 +74,29 @@ class BigNumberX64 extends BigNumber {
 
     return hex;
   }
+
+
+  @override
+  int get hashCode {
+    int hash = Object.hash(_length, _maxBitLength, _platform);
+    hash ^= Object.hashAll(_data);
+    return hash;
+  }
+
+
+  @override
+  bool operator ==(Object other) {
+    return (other is BigNumberX64) && (super == other);
+  }
+
+
+  @override
+  BigNumberX64 operator ~() {
+    BigNumberX64 output = BigNumberX64(_maxBitLength);
+    output.setHex(getHex());
+    for(int i = 0; i < _length; i++) {
+      output._data[i] = (output._data[i] ^ 0xffffffffffffffff);
+    }
+    return output;
+  }
 }
