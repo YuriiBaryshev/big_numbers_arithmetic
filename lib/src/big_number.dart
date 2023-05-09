@@ -56,4 +56,6 @@ abstract class BigNumber {
 
   BigNumber operator ~();
 
+  BigNumber operator ^(Object other);
+
 }
