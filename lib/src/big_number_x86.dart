@@ -88,4 +88,23 @@ class BigNumberX86 extends BigNumber {
     }
     return output;
   }
+
+  @override
+  BigNumberX86 operator ^(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to XOR with other data than BigNumberX86");
+    }
+
+    if (other.maxBitLength != maxBitLength) {
+      throw FormatException("BigNumberX86: unable to XOR data of $maxBitLength bits with"
+          " data of ${other.maxBitLength} bits. Please make sure they have the same length.");
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength);
+    output.setHex(getHex());
+    for(int i = 0; i < _length; i++) {
+      output.data[i] = data[i] ^ other.data[i];
+    }
+    return output;
+  }
 }
