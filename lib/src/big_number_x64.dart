@@ -145,4 +145,24 @@ class BigNumberX64 extends BigNumber {
     }
     return output;
   }
+
+
+  @override
+  BigNumberX64 operator &(Object other) {
+    if (other is! BigNumberX64) {
+      throw ArgumentError("BigNumberX64: unable to AND with other data than BigNumberX64");
+    }
+
+    if (other.maxBitLength != maxBitLength) {
+      throw FormatException("BigNumberX64: unable to AND data of $maxBitLength bits with"
+          " data of ${other.maxBitLength} bits. Please make sure they have the same length.");
+    }
+
+    BigNumberX64 output = BigNumberX64(maxBitLength);
+    output.setHex(getHex());
+    for(int i = 0; i < _length; i++) {
+      output.data[i] = data[i] & other.data[i];
+    }
+    return output;
+  }
 }
