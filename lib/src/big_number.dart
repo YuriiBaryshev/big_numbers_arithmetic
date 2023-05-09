@@ -5,6 +5,7 @@ part of big_numbers_arithmetic;
 abstract class BigNumber {
   ///maximum variable length in bits
   late int _maxBitLength;
+  int get maxBitLength => _maxBitLength;
 
   ///maximum variable length in platform dependant blocks
   late int _length;
