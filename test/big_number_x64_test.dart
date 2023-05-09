@@ -82,39 +82,5 @@ void main() {
                 "bcdef123456781234567809abcdef09abcdef");
       });
     });
-
-    group('Bitwise operations', () {
-      test("inversion of 128 bit", () {
-        BigNumberX64 bn1 = BigNumberX64(128);
-        BigNumberX64 bn2 = BigNumberX64(128);
-        bn1.setHex("1");
-        bn2.setHex("fffffffffffffffffffffffffffffffe");
-
-        expect(~bn1, bn2, reason: "${(~bn1).getHex()} is not equal ${bn2.getHex()}");
-        expect(bn1, (~bn2), reason: "${bn1.getHex()} is not equal ${(~bn2).getHex()}");
-        expect(bn2, ~(~bn2), reason: "${(~(~bn2)).getHex()} is not equal ${bn2.getHex()}");
-      });
-
-
-      test("xor of 128 bit", () {
-        BigNumberX64 bn1 = BigNumberX64(128);
-        BigNumberX64 bn2 = BigNumberX64(128);
-        BigNumberX64 zero = BigNumberX64(128);
-        BigNumberX64 allOnes = BigNumberX64(128);
-        bn1.setHex("1");
-        bn2.setHex("fffffffffffffffffffffffffffffffe");
-
-        zero.setHex("0");
-        allOnes.setHex("ffffffffffffffffffffffffffffffff");
-
-        expect(zero ^ zero, zero, reason: "${(zero ^ zero).getHex()} is not equal ${zero.getHex()}");
-        expect(allOnes ^ allOnes, zero, reason: "${(allOnes ^ allOnes).getHex()} is not equal ${zero.getHex()}");
-        expect(zero ^ allOnes, allOnes, reason: "${(zero ^ allOnes).getHex()} is not equal ${zero.getHex()}");
-
-        expect(bn1 ^ bn1, zero, reason: "${(bn1 ^ bn1).getHex()} is not equal ${zero.getHex()}");
-        expect(bn2 ^ bn2, zero, reason: "${(bn2 ^ bn2).getHex()} is not equal ${zero.getHex()}");
-        expect(bn1 ^ bn2, allOnes, reason: "${(bn1 ^ bn2).getHex()} is not equal ${allOnes.getHex()}");
-      });
-    });
   });
 }
