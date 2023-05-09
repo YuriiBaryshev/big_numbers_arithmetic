@@ -58,4 +58,6 @@ abstract class BigNumber {
 
   BigNumber operator ^(Object other);
 
+  BigNumber operator |(Object other);
+
 }
