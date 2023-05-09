@@ -18,9 +18,10 @@ void main() {
     });
 
 
-      bnx64.setHex("1234");
-      expect(bnx64.getHex(), "0x0000000000001234");
-      expect(bnx64.getHex(hasLeadingZeroes: false), "0x1234");
+    test('sets and gets hex from 2 element array', () {
+      BigNumberX64 bn = BigNumberX64(128);
+      bn.setHex("0x123456781234567809abcdef09abcdef");
+      expect(bn.getHex(), "0x123456781234567809abcdef09abcdef");
 
       bn.setHex("1234");
       expect(bn.getHex(), "0x00000000000000000000000000001234");
