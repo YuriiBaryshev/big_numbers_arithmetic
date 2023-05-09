@@ -92,6 +92,27 @@ void main() {
         expect(bn1, (~bn2), reason: "${bn1.getHex()} is not equal ${(~bn2).getHex()}");
         expect(bn2, ~(~bn2), reason: "${(~(~bn2)).getHex()} is not equal ${bn2.getHex()}");
       });
+
+
+      test("xor of 128 bit", () {
+        BigNumberX86 bn1 = BigNumberX86(128);
+        BigNumberX86 bn2 = BigNumberX86(128);
+        BigNumberX86 zero = BigNumberX86(128);
+        BigNumberX86 allOnes = BigNumberX86(128);
+        bn1.setHex("1");
+        bn2.setHex("fffffffffffffffffffffffffffffffe");
+
+        zero.setHex("0");
+        allOnes.setHex("ffffffffffffffffffffffffffffffff");
+
+        expect(zero ^ zero, zero, reason: "${(zero ^ zero).getHex()} is not equal ${zero.getHex()}");
+        expect(allOnes ^ allOnes, zero, reason: "${(allOnes ^ allOnes).getHex()} is not equal ${zero.getHex()}");
+        expect(zero ^ allOnes, allOnes, reason: "${(zero ^ allOnes).getHex()} is not equal ${zero.getHex()}");
+
+        expect(bn1 ^ bn1, zero, reason: "${(bn1 ^ bn1).getHex()} is not equal ${zero.getHex()}");
+        expect(bn2 ^ bn2, zero, reason: "${(bn2 ^ bn2).getHex()} is not equal ${zero.getHex()}");
+        expect(bn1 ^ bn2, allOnes, reason: "${(bn1 ^ bn2).getHex()} is not equal ${allOnes.getHex()}");
+      });
     });
   });
 }
