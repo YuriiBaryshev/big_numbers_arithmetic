@@ -8,7 +8,7 @@ class BigNumberX64 extends BigNumber {
 
   ///creates instance of 64 bit optimized BigNumber
   BigNumberX64(int maxBitLength) {
-    if(maxBitLength < 0) {
+    if(maxBitLength <= 0) {
       throw ArgumentError("BigNumberX64: maxBitLength must be positive");
     }
 

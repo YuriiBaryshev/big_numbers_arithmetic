@@ -8,7 +8,7 @@ class BigNumberX86 extends BigNumber {
 
   ///creates instance of 32 bit optimized BigNumber
   BigNumberX86(int maxBitLength) {
-    if(maxBitLength < 0) {
+    if(maxBitLength <= 0) {
       throw ArgumentError("BigNumberX86: maxBitLength must be positive");
     }
 
