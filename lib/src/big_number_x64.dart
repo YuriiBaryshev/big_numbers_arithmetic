@@ -48,7 +48,7 @@ class BigNumberX64 extends BigNumber {
       }
     }
 
-    for(; j > 0; j--) {
+    for(; j >= 0; j--) {
       _data[j] = 0;
     }
   }
