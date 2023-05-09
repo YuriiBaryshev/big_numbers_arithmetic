@@ -38,5 +38,41 @@ void main() {
       expect(bn.getHex(), "0x00000000000000000000000000012340");
       expect(bn.getHex(hasLeadingZeroes: false), "0x12340");
     });
+
+
+    test('sets and gets hex for 256 bits data', () {
+      BigNumberX64 bn = BigNumberX64(256);
+      bn.setHex("0x123456781234567809abcdef09abcdef");
+      expect(bn.getHex(hasLeadingZeroes: false), "0x123456781234567809abcdef09abcdef");
+
+      bn.setHex("123456781234567809abcdef09abcdef123456781234567809abcdef09abcdef");
+      expect(
+          bn.getHex(hasLeadingZeroes: false),
+          "0x123456781234567809abcdef09abcdef123456781234567809abcdef09abcdef"
+      );
+    });
+
+
+    test('sets and gets hex for 2048 bits data', () {
+      BigNumberX64 bn = BigNumberX64(2048);
+      bn.setHex("0x123456781234567809abcdef09abcdef123456781234567809abcdef09abc"
+          "def123456781234567809abcdef09abcdef123456781234567809abcdef09abcdef12"
+          "3456781234567809abcdef09abcdef123456781234567809abcdef09abcdef1234567"
+          "81234567809abcdef09abcdef123456781234567809abcdef09abcdef123456781234"
+          "567809abcdef09abcdef123456781234567809abcdef09abcdef12345678123456780"
+          "9abcdef09abcdef123456781234567809abcdef09abcdef123456781234567809abcd"
+          "ef09abcdef123456781234567809abcdef09abcdef123456781234567809abcdef09a"
+          "bcdef123456781234567809abcdef09abcdef"
+      );
+
+      expect(bn.getHex(), "0x123456781234567809abcdef09abcdef123456781234567809abcdef09abc"
+          "def123456781234567809abcdef09abcdef123456781234567809abcdef09abcdef12"
+          "3456781234567809abcdef09abcdef123456781234567809abcdef09abcdef1234567"
+          "81234567809abcdef09abcdef123456781234567809abcdef09abcdef123456781234"
+          "567809abcdef09abcdef123456781234567809abcdef09abcdef12345678123456780"
+          "9abcdef09abcdef123456781234567809abcdef09abcdef123456781234567809abcd"
+          "ef09abcdef123456781234567809abcdef09abcdef123456781234567809abcdef09a"
+          "bcdef123456781234567809abcdef09abcdef");
+    });
   });
 }
