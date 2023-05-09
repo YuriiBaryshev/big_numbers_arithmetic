@@ -11,6 +11,8 @@ void main() {
       bn.setHex("1234");
       expect(bn.getHex(), "0x0000000000001234");
       expect(bn.getHex(hasLeadingZeroes: false), "0x1234");
+      expect(bn.getHex(has0x: false, hasLeadingZeroes: false), "1234");
+      expect(bn.getHex(has0x: false, hasLeadingZeroes: true), "0000000000001234");
 
       bn.setHex("12340");
       expect(bn.getHex(), "0x0000000000012340");
@@ -26,6 +28,11 @@ void main() {
       bn.setHex("1234");
       expect(bn.getHex(), "0x00000000000000000000000000001234");
       expect(bn.getHex(hasLeadingZeroes: false), "0x1234");
+      expect(bn.getHex(has0x: false, hasLeadingZeroes: false), "1234");
+      expect(
+          bn.getHex(has0x: false, hasLeadingZeroes: true),
+          "00000000000000000000000000001234"
+      );
 
       bn.setHex("12340");
       expect(bn.getHex(), "0x00000000000000000000000000012340");
