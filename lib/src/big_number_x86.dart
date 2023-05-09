@@ -4,7 +4,7 @@ part of big_numbers_arithmetic;
 ///Implements BigNumbers arithmetic for x86 platforms
 class BigNumberX86 extends BigNumber {
   ///holder of 32 bits parts of data in big-endian format
-  late Uint32List _data;
+  late Uint32List data;
 
   ///creates instance of 32 bit optimized BigNumber
   BigNumberX86(int maxBitLength) {
@@ -20,7 +20,7 @@ class BigNumberX86 extends BigNumber {
 
     _maxBitLength = maxBitLength;
     _length = _maxBitLength ~/ _platform;
-    _data = Uint32List(_length);
+    data = Uint32List(_length);
   }
 
 
@@ -30,16 +30,16 @@ class BigNumberX86 extends BigNumber {
     int j = _length - 1;
     for(int i = 0; i < originalHexStringLength; i += 8, j--) {
       if(hexString.length >= 8) {
-        _data[j] = int.parse(hexString.substring(hexString.length - 8), radix: 16);
+        data[j] = int.parse(hexString.substring(hexString.length - 8), radix: 16);
         hexString = hexString.substring(0, hexString.length - 8);
       } else {
-        _data[j] = int.parse(hexString, radix: 16);
+        data[j] = int.parse(hexString, radix: 16);
         hexString = "";
       }
     }
 
     for(; j >= 0; j--) {
-      _data[j] = 0;
+      data[j] = 0;
     }
   }
 
@@ -49,7 +49,7 @@ class BigNumberX86 extends BigNumber {
     String hex = "";
 
     for(int i = 0; i < _length; i++) {
-      String convertedElement = _data[i].toRadixString(16);
+      String convertedElement = data[i].toRadixString(16);
       convertedElement = convertedElement.padLeft(8, '0');
       hex += convertedElement;
     }
@@ -69,7 +69,7 @@ class BigNumberX86 extends BigNumber {
   @override
   int get hashCode {
     int hash = Object.hash(_length, _maxBitLength, _platform);
-    hash ^= Object.hashAll(_data);
+    hash ^= Object.hashAll(data);
     return hash;
   }
 
@@ -84,7 +84,7 @@ class BigNumberX86 extends BigNumber {
     BigNumberX86 output = BigNumberX86(_maxBitLength);
     output.setHex(getHex());
     for(int i = 0; i < _length; i++) {
-      output._data[i] = output._data[i] ^ 0xffffffff;
+      output.data[i] = output.data[i] ^ 0xffffffff;
     }
     return output;
   }

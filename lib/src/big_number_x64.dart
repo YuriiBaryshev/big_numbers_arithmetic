@@ -4,7 +4,7 @@ part of big_numbers_arithmetic;
 ///Implements BigNumbers arithmetic for x64 platforms
 class BigNumberX64 extends BigNumber {
   ///holder of 64 bits parts of data in big-endian format
-  late Uint64List _data;
+  late Uint64List data;
 
   ///creates instance of 64 bit optimized BigNumber
   BigNumberX64(int maxBitLength) {
@@ -20,7 +20,7 @@ class BigNumberX64 extends BigNumber {
 
     _maxBitLength = maxBitLength;
     _length = _maxBitLength ~/ _platform;
-    _data = Uint64List(_length);
+    data = Uint64List(_length);
   }
 
 
@@ -30,26 +30,26 @@ class BigNumberX64 extends BigNumber {
     int j = _length - 1;
     for(int i = 0; i < originalHexStringLength; i += 16, j--) {
       if(hexString.length >= 16) {
-        _data[j] = int.parse(hexString.substring(hexString.length - 16, hexString.length - 8), radix: 16);
-        _data[j] = _data[j] << 32;
-        _data[j] += int.parse(hexString.substring(hexString.length - 8), radix: 16);
+        data[j] = int.parse(hexString.substring(hexString.length - 16, hexString.length - 8), radix: 16);
+        data[j] = data[j] << 32;
+        data[j] += int.parse(hexString.substring(hexString.length - 8), radix: 16);
         hexString = hexString.substring(0, hexString.length - 16);
       } else {
         if(hexString.length > 8) {
           print(hexString.substring(0, hexString.length - 8));
-          _data[j] = int.parse(hexString.substring(0, hexString.length - 8), radix: 16);
-          _data[j] = _data[j] << 32;
-          _data[j] = int.parse(hexString.substring(hexString.length - 8), radix: 16);
+          data[j] = int.parse(hexString.substring(0, hexString.length - 8), radix: 16);
+          data[j] = data[j] << 32;
+          data[j] = int.parse(hexString.substring(hexString.length - 8), radix: 16);
           hexString = "";
         } else {
-          _data[j] = int.parse(hexString, radix: 16);
+          data[j] = int.parse(hexString, radix: 16);
           hexString = "";
         }
       }
     }
 
     for(; j >= 0; j--) {
-      _data[j] = 0;
+      data[j] = 0;
     }
   }
 
@@ -59,8 +59,8 @@ class BigNumberX64 extends BigNumber {
     String hex = "";
 
     for(int i = 0; i < _length; i++) {
-      if(_data[i].isNegative) _data[i] = ~_data[i];
-      String convertedElement = _data[i].toRadixString(16);
+      if(data[i].isNegative) data[i] = ~data[i];
+      String convertedElement = data[i].toRadixString(16);
       convertedElement = convertedElement.padLeft(16, '0');
       hex += convertedElement;
     }
@@ -80,7 +80,7 @@ class BigNumberX64 extends BigNumber {
   @override
   int get hashCode {
     int hash = Object.hash(_length, _maxBitLength, _platform);
-    hash ^= Object.hashAll(_data);
+    hash ^= Object.hashAll(data);
     return hash;
   }
 
@@ -96,7 +96,7 @@ class BigNumberX64 extends BigNumber {
     BigNumberX64 output = BigNumberX64(_maxBitLength);
     output.setHex(getHex());
     for(int i = 0; i < _length; i++) {
-      output._data[i] = (output._data[i] ^ 0xffffffffffffffff);
+      output.data[i] = (output.data[i] ^ 0xffffffffffffffff);
     }
     return output;
   }
