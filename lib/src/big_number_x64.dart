@@ -405,4 +405,10 @@ class BigNumberX64 extends BigNumber {
     output.setHex(a.toRadixString(16));
     return output;
   }
+
+
+  @override
+  BigNumberX64 operator *(Object other) {
+    throw UnimplementedError("BigNumberX64: it has not implemented yet");
+  }
 }
