@@ -119,75 +119,43 @@ void main() {
 
 
         test("inversion of 128 bit", () {
-          expect(~bn1, bn2,
-              reason: "${(~bn1).getHex()} is not equal ${bn2.getHex()}");
-          expect(bn1, (~bn2),
-              reason: "${bn1.getHex()} is not equal ${(~bn2).getHex()}");
-          expect(bn2, ~(~bn2),
-              reason: "${(~(~bn2)).getHex()} is not equal ${bn2.getHex()}");
+          expect(~bn1, bn2, reason: "inversion of $bn1 is not equal $bn2");
+          expect(~bn2, bn1, reason: "inversion of $bn2 is not equal $bn1");
+          expect(~(~bn2), bn2, reason: "double inversion of $bn2 is not equal to"
+              " itself");
         });
 
 
         test("xor of 128 bit", () {
-          expect(zero ^ zero, zero,
-              reason: "${(zero ^ zero).getHex()} is not equal ${zero
-                  .getHex()}");
-          expect(allOnes ^ allOnes, zero,
-              reason: "${(allOnes ^ allOnes).getHex()} is not equal ${zero
-                  .getHex()}");
-          expect(zero ^ allOnes, allOnes,
-              reason: "${(zero ^ allOnes).getHex()} is not equal ${zero
-                  .getHex()}");
+          expect(zero ^ zero, zero, reason: "$zero ^ $zero is not equal $zero");
+          expect(allOnes ^ allOnes, zero, reason: "$allOnes ^ $allOnes is not equal $zero");
+          expect(zero ^ allOnes, allOnes, reason: "$zero ^ $allOnes is not equal $zero");
 
-          expect(bn1 ^ bn1, zero,
-              reason: "${(bn1 ^ bn1).getHex()} is not equal ${zero.getHex()}");
-          expect(bn2 ^ bn2, zero,
-              reason: "${(bn2 ^ bn2).getHex()} is not equal ${zero.getHex()}");
-          expect(bn1 ^ bn2, allOnes,
-              reason: "${(bn1 ^ bn2).getHex()} is not equal ${allOnes
-                  .getHex()}");
+          expect(bn1 ^ bn1, zero, reason: "$bn1 ^ $bn1 is not equal $zero");
+          expect(bn2 ^ bn2, zero, reason: "$bn2 ^ $bn2 is not equal $zero");
+          expect(bn1 ^ bn2, allOnes, reason: "$bn1 ^ $bn2 is not equal $allOnes");
         });
 
 
         test("or of 128 bit", () {
-          expect(zero | zero, zero,
-              reason: "${(zero | zero).getHex()} is not equal ${zero
-                  .getHex()}");
-          expect(allOnes | allOnes, allOnes,
-              reason: "${(allOnes | allOnes).getHex()} is not equal ${allOnes
-                  .getHex()}");
-          expect(zero | allOnes, allOnes,
-              reason: "${(zero | allOnes).getHex()} is not equal ${allOnes
-                  .getHex()}");
+          expect(zero | zero, zero, reason: "$zero | $zero is not equal $zero");
+          expect(allOnes | allOnes, allOnes, reason: "$allOnes | $allOnes is not equal $allOnes");
+          expect(zero | allOnes, allOnes, reason: "$zero | $allOnes is not equal $allOnes");
 
-          expect(bn1 | bn1, bn1,
-              reason: "${(bn1 | bn1).getHex()} is not equal ${bn1.getHex()}");
-          expect(bn2 | bn2, bn2,
-              reason: "${(bn2 | bn2).getHex()} is not equal ${bn2.getHex()}");
-          expect(bn1 | bn2, allOnes,
-              reason: "${(bn1 | bn2).getHex()} is not equal ${allOnes
-                  .getHex()}");
+          expect(bn1 | bn1, bn1, reason: "$bn1 | $bn1 is not equal $bn1");
+          expect(bn2 | bn2, bn2, reason: "$bn2 | $bn2 is not equal $bn2");
+          expect(bn1 | bn2, allOnes, reason: "$bn1 | $bn2 is not equal $allOnes");
         });
 
 
         test("and of 128 bit", () {
-          expect(zero & zero, zero,
-              reason: "${(zero & zero).getHex()} is not equal ${zero
-                  .getHex()}");
-          expect(allOnes & allOnes, allOnes,
-              reason: "${(allOnes & allOnes).getHex()} is not equal ${allOnes
-                  .getHex()}");
-          expect(zero & allOnes, zero,
-              reason: "${(zero & allOnes).getHex()} is not equal ${zero
-                  .getHex()}");
+          expect(zero & zero, zero, reason: "$zero & $zero is not equal $zero");
+          expect(allOnes & allOnes, allOnes, reason: "$allOnes & $allOnes is not equal $allOnes");
+          expect(zero & allOnes, zero, reason: "$zero & $allOnes is not equal $zero");
 
-          expect(bn1 & bn1, bn1,
-              reason: "${(bn1 & bn1).getHex()} is not equal ${bn1.getHex()}");
-          expect(bn2 & bn2, bn2,
-              reason: "${(bn2 & bn2).getHex()} is not equal ${bn2.getHex()}");
-          expect(bn1 & bn2, zero,
-              reason: "${(bn1 & bn2).getHex()} is not equal ${zero
-                  .getHex()}");
+          expect(bn1 & bn1, bn1, reason: "$bn1 & $bn1 is not equal $bn1");
+          expect(bn2 & bn2, bn2, reason: "$bn2 & $bn2 is not equal $bn2");
+          expect(bn1 & bn2, zero, reason: "$bn1 & $bn2 is not equal $zero");
         });
       });
     }
