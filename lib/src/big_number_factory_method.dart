@@ -19,15 +19,15 @@ class BigNumberFactoryMethod {
 
   ///Creates an instance of 32 bit based BigNumber for x86 or any other 32 bit
   ///based platforms
-  static createBigNumberX86(int maxBitLength) {
-    throw UnimplementedError("BigNumberFactoryMethod: it hasn't been implemented yet");
+  static BigNumberX86 createBigNumberX86(int maxBitLength) {
+    return BigNumberX86(maxBitLength);
   }
 
 
   ///Creates an instance of 64 bit based BigNumber for x64 or any other 64 bit
   ///based platform
-  static createBigNumberX64(int maxBitLength) {
-    throw UnimplementedError("BigNumberFactoryMethod: it hasn't been implemented yet");
+  static BigNumberX64 createBigNumberX64(int maxBitLength) {
+    return BigNumberX64(maxBitLength);
   }
 
 
@@ -35,13 +35,11 @@ class BigNumberFactoryMethod {
   static createBigNumber(Platforms platform, int maxBitLength) {
     switch(platform) {
       case Platforms.x86 : {
-        createBigNumberX86(maxBitLength);
-        break;
+        return createBigNumberX86(maxBitLength);
       }
 
       case Platforms.x64 : {
-        createBigNumberX64(maxBitLength);
-        break;
+        return createBigNumberX64(maxBitLength);
       }
 
       default : {

@@ -44,6 +44,35 @@ class BigNumberX86 extends BigNumber {
   }
 
 
+  void _increaseLength(int newMaxBitLength) {
+    if(newMaxBitLength < maxBitLength) {
+      throw ArgumentError("BigNumberX86: unable to reduce variable's length. "
+          "It ony can be increased");
+    }
+
+    int oldLength = _length;
+    Uint32List oldData = Uint32List(_length);
+
+
+    for(int i = 0; i < _length; i++) {
+      oldData[i] = data[i];
+    }
+
+    _maxBitLength = newMaxBitLength;
+    _length = _maxBitLength ~/ _platform;
+    data = Uint32List(_length);
+
+    int delta = _length - oldLength;
+    for(int i = 0; i < oldLength; i++) {
+      data[i + delta] = oldData[i];
+    }
+
+    for(int i = 0; i < delta; i++) {
+      data[i] = 0;
+    }
+  }
+
+
   @override
   String getHex({bool has0x = true, bool hasLeadingZeroes = true}) {
     String hex = "";
@@ -196,6 +225,163 @@ class BigNumberX86 extends BigNumber {
 
       if (i < _length - 1) {
         output.data[j] |= data[i + 1] >> (_platform - elementShift);
+      }
+    }
+    return output;
+  }
+
+
+  @override
+  BigNumberX86 operator +(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to ADD with other data than BigNumberX86");
+    }
+
+    if(other.maxBitLength > maxBitLength) {
+      _increaseLength(other.maxBitLength);
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength);
+    output.setHex("0");
+    int carry = 0;
+    for(int i = _length - 1, j = other._length - 1; i >= 0; i--, j--) {
+      int nextCarry  = ((data[i] + (j >= 0 ? other.data[j] : 0) + carry) > 0xffffffff) ? 1 : 0;
+      output.data[i] = data[i] + (j >= 0 ? other.data[j] : 0) + carry;
+      carry = nextCarry;
+    }
+
+    if(carry == 1) {
+      output._increaseLength(maxBitLength + 32);
+      output.data[0] = carry;
+    }
+
+    return output;
+  }
+
+
+  @override
+  BigNumberX86 operator -(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to SUB with other data than BigNumberX86");
+    }
+
+    if(other.maxBitLength > maxBitLength) {
+      _increaseLength(other.maxBitLength);
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength);
+    output.setHex("0");
+    int carry = 0;
+    for(int i = _length - 1, j = other._length - 1; i >= 0; i--, j--) {
+      int nextCarry  = ((data[i] - (j >= 0 ? other.data[j] : 0) - carry) < 0) ? 1 : 0;
+      output.data[i] = data[i] - (j >= 0 ? other.data[j] : 0) - carry;
+      carry = nextCarry;
+    }
+
+    return output;
+  }
+
+
+  @override
+  bool operator < (Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to compare with other data than BigNumberX86");
+    }
+
+    BigNumberX86 temp = this;
+    if(other.maxBitLength < maxBitLength) {
+      other._increaseLength(maxBitLength);
+      temp = this;
+    } else {
+      if(other.maxBitLength > maxBitLength) {
+        temp._increaseLength(other.maxBitLength);
+      }
+    }
+
+    for(int i = 0; i < temp._length; i++) {
+      if (temp.data[i] == other.data[i]) continue;
+      if (temp.data[i] > other.data[i]) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false; //equal
+  }
+
+
+  @override
+  bool operator <= (Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to compare with other data than BigNumberX86");
+    }
+
+    BigNumberX86 temp = this;
+    if(other.maxBitLength < maxBitLength) {
+      other._increaseLength(maxBitLength);
+      temp = this;
+    } else {
+      if(other.maxBitLength > maxBitLength) {
+        temp._increaseLength(other.maxBitLength);
+      }
+    }
+
+    for(int i = 0; i < temp._length; i++) {
+      if (temp.data[i] == other.data[i]) continue;
+      if (temp.data[i] > other.data[i]) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return true; //equal
+  }
+
+
+  @override
+  BigNumberX86 operator %(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to MOD with other data than BigNumberX86");
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength);
+    output.setHex("0");
+
+    if(this == other) {
+      return output;
+    }
+
+    output = this;
+
+    if(this < other) {
+      return output;
+    }
+
+    while(other <= output) {
+      output -= other;
+    }
+
+    return output;
+  }
+
+
+  @override
+  BigNumberX86 operator *(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to MOD with other data than BigNumberX86");
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength << 1);
+    output.setHex("0");
+
+    //binary algorithm
+    for(int i = 0; i < _length; i++) {
+      int mask = 0x80000000;
+      for(; mask != 0; mask = mask >> 1) {
+        output += output;
+        if(other.data[i] & mask != 0) {
+          output += this;
+        }
       }
     }
     return output;
