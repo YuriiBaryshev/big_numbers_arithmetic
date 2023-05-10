@@ -311,6 +311,34 @@ class BigNumberX86 extends BigNumber {
 
 
   @override
+  bool operator <= (Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to compare with other data than BigNumberX86");
+    }
+
+    BigNumberX86 temp = this;
+    if(other.maxBitLength < maxBitLength) {
+      other._increaseLength(maxBitLength);
+      temp = this;
+    } else {
+      if(other.maxBitLength > maxBitLength) {
+        temp._increaseLength(other.maxBitLength);
+      }
+    }
+
+    for(int i = 0; i < temp._length; i++) {
+      if (temp.data[i] == other.data[i]) continue;
+      if (temp.data[i] > other.data[i]) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return true; //equal
+  }
+
+
+  @override
   BigNumberX86 operator %(Object other) {
     if (other is! BigNumberX86) {
       throw ArgumentError("BigNumberX86: unable to MOD with other data than BigNumberX86");
