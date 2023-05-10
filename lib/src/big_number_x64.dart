@@ -333,4 +333,59 @@ class BigNumberX64 extends BigNumber {
 
      return output;
   }
+
+
+  @override
+  bool operator < (Object other) {
+    if (other is! BigNumberX64) {
+      throw ArgumentError("BigNumberX64: unable to compare with other data than BigNumberX64");
+    }
+
+    BigNumberX64 temp = this;
+    if(other.maxBitLength < maxBitLength) {
+      other._increaseLength(maxBitLength);
+      temp = this;
+    } else {
+      if(other.maxBitLength > maxBitLength) {
+        temp._increaseLength(other.maxBitLength);
+      }
+    }
+
+    for(int i = 0; i < temp._length; i++) {
+      if (temp.data[i] == other.data[i]) continue;
+      if (temp.data[i] > other.data[i]) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false; //equal
+  }
+
+
+  @override
+  BigNumberX64 operator %(Object other) {
+    if (other is! BigNumberX64) {
+      throw ArgumentError("BigNumberX64: unable to MOD with other data than BigNumberX64");
+    }
+
+    if(this < other) {
+      return this;
+    }
+
+    BigNumberX64 output = BigNumberX64(maxBitLength);
+    output.setHex("0");
+
+    if(this == other) {
+      return output;
+    }
+
+    output = this;
+
+    while(other < output) {
+      output -= other;
+    }
+
+    return output;
+  }
 }
