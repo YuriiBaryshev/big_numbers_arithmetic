@@ -244,9 +244,9 @@ class BigNumberX86 extends BigNumber {
     BigNumberX86 output = BigNumberX86(maxBitLength);
     output.setHex("0");
     int carry = 0;
-    for(int i = _length - 1; i >= 0; i--) {
-      int nextCarry  = ((data[i] + other.data[i] + carry) > 0xffffffff) ? 1 : 0;
-      output.data[i] = data[i] + other.data[i] + carry;
+    for(int i = _length - 1, j = other._length - 1; i >= 0; i--, j--) {
+      int nextCarry  = ((data[i] + (j >= 0 ? other.data[j] : 0) + carry) > 0xffffffff) ? 1 : 0;
+      output.data[i] = data[i] + (j >= 0 ? other.data[j] : 0) + carry;
       carry = nextCarry;
     }
 

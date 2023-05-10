@@ -274,12 +274,12 @@ class BigNumberX64 extends BigNumber {
     BigNumberX64 output = BigNumberX64(maxBitLength);
     output.setHex("0");
     int carry = 0;
-    for(int i = _length - 1; i >= 0; i--) {
+    for(int i = _length - 1, j = other._length - 1; i >= 0; i--, j--) {
       //BigInt seems kinda cheating for the task, but Uint64 is implemented way awfully
       //and I'm way out of time to rewrite it. See x86 implementation to see how the code
       //should look like, when Uint is actually Uint
       late BigInt a = BigInt.from(data[i]),
-          b = BigInt.from(other.data[i]),
+          b = BigInt.from(j >= 0 ? other.data[j] : 0),
           c = BigInt.from(carry);
       if(data[i].isNegative) {
         a += BigInt.parse("10000000000000000", radix: 16);
@@ -289,7 +289,7 @@ class BigNumberX64 extends BigNumber {
         b += BigInt.parse("10000000000000000", radix: 16);
       }
       int nextCarry  = ((a + b + c) > BigInt.parse("ffffffffffffffff", radix: 16)) ? 1 : 0;
-      output.data[i] = data[i] + other.data[i] + carry;
+      output.data[i] = data[i] + (j >= 0 ? other.data[j] : 0) + carry;
       carry = nextCarry;
     }
 
