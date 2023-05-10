@@ -147,4 +147,30 @@ class BigNumberX86 extends BigNumber {
     }
     return output;
   }
+
+
+  @override
+  BigNumberX86 operator >>(int positions) {
+    if (positions < 0) {
+      throw UnimplementedError("BigNumberX86: shifting on negative positions is not implemented yet");
+    }
+
+    if (positions > _maxBitLength) {
+      throw UnimplementedError("BigNumberX86: shifting on negative positions is not implemented yet");
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength);
+    output.setHex("0");
+
+    int deltaInElements = positions ~/ _platform;
+    int elementShift = positions % _platform;
+
+    for(int i = 0, j = deltaInElements; j < _length; i++, j++) {
+      output.data[j] = data[i] >> elementShift;
+      if (i > 0) {
+        output.data[j] |= data[i - 1] << (_platform - elementShift);
+      }
+    }
+    return output;
+  }
 }

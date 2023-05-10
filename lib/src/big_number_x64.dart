@@ -165,4 +165,37 @@ class BigNumberX64 extends BigNumber {
     }
     return output;
   }
+
+
+  @override
+  BigNumberX64 operator >>(int positions) {
+    if (positions < 0) {
+      throw UnimplementedError("BigNumberX64: shifting on negative positions is not implemented yet");
+    }
+
+    if (positions > _maxBitLength) {
+      throw UnimplementedError("BigNumberX64: shifting on negative positions is not implemented yet");
+    }
+
+    BigNumberX64 output = BigNumberX64(maxBitLength);
+    output.setHex("0");
+
+    int deltaInElements = positions ~/ _platform;
+    int elementShift = positions.remainder(_platform);
+
+
+    for(int i = 0, j = deltaInElements; j < _length; i++, j++) {
+      if (data[i].isNegative) {
+        output.data[j] = (data[i] + 0x8000000000000000) >> elementShift;
+        output.data[j] -= 0x8000000000000000 >> elementShift;
+      } else {
+        output.data[j] = data[i] >> elementShift;
+      }
+
+      if (i > 0) {
+        output.data[j] |= data[i - 1] << (_platform - elementShift);
+      }
+    }
+    return output;
+  }
 }
