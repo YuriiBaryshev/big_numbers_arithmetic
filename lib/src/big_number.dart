@@ -73,4 +73,6 @@ abstract class BigNumber {
 
   BigNumber operator <<(int positions);
 
+  BigNumber operator +(Object other);
+
 }
