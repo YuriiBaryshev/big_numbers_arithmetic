@@ -2,10 +2,9 @@ import 'package:big_numbers_arithmetic/big_numbers_arithmetic.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('A group of tests', () {
+  group('Negative tests', () {
 
-    test('fails to fit big value into short variable', ()
-    {
+    test('fails to fit big value into short variable', () {
       BigNumber bn;
       expect(() {
         bn = BigNumberX64(64);
@@ -77,8 +76,7 @@ void main() {
     });
   });
 
-  group("Bitwise operations of", ()
-  {
+  group("Bitwise operations of", () {
     for (String implementation in ["BigNumberX86", "BigNumberX64"]) {
       group(implementation, () {
         late BigNumber bn1;
