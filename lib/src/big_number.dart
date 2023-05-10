@@ -47,6 +47,13 @@ abstract class BigNumber {
   ///getting data in hexadecimal string format
   String getHex({bool has0x = true, bool hasLeadingZeroes = true});
 
+
+  @override
+  String toString() {
+    return getHex(has0x: false);
+  }
+
+
   @override
   bool operator == (Object other) =>
       (other is BigNumber) && (getHex() == other.getHex());
