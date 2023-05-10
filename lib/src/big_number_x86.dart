@@ -363,4 +363,27 @@ class BigNumberX86 extends BigNumber {
 
     return output;
   }
+
+
+  @override
+  BigNumberX86 operator *(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to MOD with other data than BigNumberX86");
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength << 1);
+    output.setHex("0");
+
+    //binary algorithm
+    for(int i = 0; i < _length; i++) {
+      int mask = 0x80000000;
+      for(; mask != 0; mask = mask >> 1) {
+        output += output;
+        if(other.data[i] & mask != 0) {
+          output += this;
+        }
+      }
+    }
+    return output;
+  }
 }
