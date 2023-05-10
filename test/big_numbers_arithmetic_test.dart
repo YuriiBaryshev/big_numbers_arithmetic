@@ -226,6 +226,21 @@ void main() {
           expect(allA - all5, all5, reason: "$allA - $all5 is not equal $all5");
           expect(zero - allOnes, bn1, reason: "$zero - $allOnes is not equal $bn1");
         });
+
+
+        test("comparing for 128 bit", () {
+          expect(bn1 < zero, isFalse, reason: "$bn1 is greater than $zero");
+          expect(zero < bn1, isTrue, reason: "$zero is not lesser than $bn1");
+          expect(bn2 < allOnes, isTrue, reason: "$bn2 is not lesser than $allOnes");
+        });
+
+
+        test("computing remainders for 128 bit", () {
+          expect(bn1 % bn2, bn1, reason: "$bn1 % $bn2 is not equal $bn1");
+          expect(allOnes % bn2, bn1, reason: "$allOnes % $bn2 is not equal $bn1");
+          expect(bn1 % bn1, zero, reason: "$bn1 % $bn1 is not equal $zero");
+          expect(allA % allA, zero, reason: "$allA % $allA is not equal $zero");
+        });
       });
     }
   });
