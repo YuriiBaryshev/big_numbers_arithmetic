@@ -304,7 +304,7 @@ class BigNumberX64 extends BigNumber {
   @override
   BigNumberX64 operator -(Object other) {
     if (other is! BigNumberX64) {
-      throw ArgumentError("BigNumberX64: unable to ADD with other data than BigNumberX64");
+      throw ArgumentError("BigNumberX64: unable to SUB with other data than BigNumberX64");
     }
 
     if(other.maxBitLength > maxBitLength) {
@@ -326,16 +326,11 @@ class BigNumberX64 extends BigNumber {
       if(other.data[i].isNegative) {
         b += BigInt.parse("10000000000000000", radix: 16);
       }
-      int nextCarry  = ((a + b + c) > BigInt.parse("ffffffffffffffff", radix: 16)) ? 1 : 0;
-      output.data[i] = data[i] + other.data[i] + carry;
+      int nextCarry  = ((a - b - c) < BigInt.zero) ? 1 : 0;
+      output.data[i] = data[i] - other.data[i] - carry;
       carry = nextCarry;
     }
 
-    if(carry == 1) {
-      output._increaseLength(maxBitLength + 64);
-      output.data[0] = carry;
-    }
-
-    return output;
+     return output;
   }
 }

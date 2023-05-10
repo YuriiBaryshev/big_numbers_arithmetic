@@ -257,4 +257,27 @@ class BigNumberX86 extends BigNumber {
 
     return output;
   }
+
+
+  @override
+  BigNumberX86 operator -(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to SUB with other data than BigNumberX86");
+    }
+
+    if(other.maxBitLength > maxBitLength) {
+      _increaseLength(other.maxBitLength);
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength);
+    output.setHex("0");
+    int carry = 0;
+    for(int i = _length - 1, j = other._length - 1; i >= 0; i--, j--) {
+      int nextCarry  = ((data[i] - (j >= 0 ? other.data[j] : 0) - carry) < 0) ? 1 : 0;
+      output.data[i] = data[i] - (j >= 0 ? other.data[j] : 0) - carry;
+      carry = nextCarry;
+    }
+
+    return output;
+  }
 }
