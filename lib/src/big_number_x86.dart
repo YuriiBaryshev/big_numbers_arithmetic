@@ -344,10 +344,6 @@ class BigNumberX86 extends BigNumber {
       throw ArgumentError("BigNumberX86: unable to MOD with other data than BigNumberX86");
     }
 
-    if(this < other) {
-      return this;
-    }
-
     BigNumberX86 output = BigNumberX86(maxBitLength);
     output.setHex("0");
 
@@ -357,7 +353,11 @@ class BigNumberX86 extends BigNumber {
 
     output = this;
 
-    while(other < output) {
+    if(this < other) {
+      return output;
+    }
+
+    while(other <= output) {
       output -= other;
     }
 

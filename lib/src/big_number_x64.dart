@@ -393,26 +393,16 @@ class BigNumberX64 extends BigNumber {
   @override
   BigNumberX64 operator %(Object other) {
     if (other is! BigNumberX64) {
-      throw ArgumentError("BigNumberX64: unable to MOD with other data than BigNumberX64");
+      throw ArgumentError("BigNumberX64: unable to compare with other data than BigNumberX64");
     }
-
-    if(this < other) {
-      return this;
-    }
-
+    //a % b
     BigNumberX64 output = BigNumberX64(maxBitLength);
-    output.setHex("0");
 
-    if(this == other) {
-      return output;
-    }
+    BigInt a = BigInt.parse(getHex(has0x: false), radix: 16);
+    BigInt b = BigInt.parse(other.getHex(has0x: false), radix: 16);
+    a = a.remainder(b);
 
-    output = this;
-
-    while(other < output) {
-      output -= other;
-    }
-
+    output.setHex(a.toRadixString(16));
     return output;
   }
 }
