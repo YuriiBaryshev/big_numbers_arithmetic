@@ -54,6 +54,35 @@ class BigNumberX64 extends BigNumber {
   }
 
 
+  void _increaseLength(int newMaxBitLength) {
+    if(newMaxBitLength < maxBitLength) {
+      throw ArgumentError("BigNumberX64: unable to reduce variable's length. "
+          "It ony can be increased");
+    }
+
+    int oldLength = _length;
+    Uint64List oldData = Uint64List(_length);
+
+
+    for(int i = 0; i < _length; i++) {
+      oldData[i] = data[i];
+    }
+
+    _maxBitLength = newMaxBitLength;
+    _length = _maxBitLength ~/ _platform;
+    data = Uint64List(_length);
+
+    int delta = _length - oldLength;
+    for(int i = 0; i < oldLength; i++) {
+      data[i + delta] = oldData[i];
+    }
+
+    for(int i = 0; i < delta; i++) {
+      data[i] = 0;
+    }
+  }
+
+
   @override
   String getHex({bool has0x = true, bool hasLeadingZeroes = true}) {
     String hex = "";
@@ -228,6 +257,45 @@ class BigNumberX64 extends BigNumber {
         }
       }
     }
+    return output;
+  }
+
+
+  @override
+  BigNumberX64 operator +(Object other) {
+    if (other is! BigNumberX64) {
+      throw ArgumentError("BigNumberX64: unable to ADD with other data than BigNumberX64");
+    }
+
+    if(other.maxBitLength > maxBitLength) {
+      _increaseLength(other.maxBitLength);
+    }
+
+    BigNumberX64 output = BigNumberX64(maxBitLength);
+    output.setHex("0");
+    int carry = 0;
+    for(int i = _length - 1; i >= 0; i--) {
+      //BigInt seems kinda cheating for the task, but Uint64 is implemented way awfully
+      late BigInt a = BigInt.from(data[i]),
+          b = BigInt.from(other.data[i]),
+          c = BigInt.from(carry);
+      if(data[i].isNegative) {
+        a += BigInt.parse("10000000000000000", radix: 16);
+      }
+
+      if(other.data[i].isNegative) {
+        b += BigInt.parse("10000000000000000", radix: 16);
+      }
+      int nextCarry  = ((a + b + c) > BigInt.parse("ffffffffffffffff", radix: 16)) ? 1 : 0;
+      output.data[i] = data[i] + other.data[i] + carry;
+      carry = nextCarry;
+    }
+
+    if(carry == 1) {
+      output._increaseLength(maxBitLength + 64);
+      output.data[0] = carry;
+    }
+
     return output;
   }
 }

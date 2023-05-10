@@ -44,6 +44,35 @@ class BigNumberX86 extends BigNumber {
   }
 
 
+  void _increaseLength(int newMaxBitLength) {
+    if(newMaxBitLength < maxBitLength) {
+      throw ArgumentError("BigNumberX86: unable to reduce variable's length. "
+          "It ony can be increased");
+    }
+
+    int oldLength = _length;
+    Uint32List oldData = Uint32List(_length);
+
+
+    for(int i = 0; i < _length; i++) {
+      oldData[i] = data[i];
+    }
+
+    _maxBitLength = newMaxBitLength;
+    _length = _maxBitLength ~/ _platform;
+    data = Uint32List(_length);
+
+    int delta = _length - oldLength;
+    for(int i = 0; i < oldLength; i++) {
+      data[i + delta] = oldData[i];
+    }
+
+    for(int i = 0; i < delta; i++) {
+      data[i] = 0;
+    }
+  }
+
+
   @override
   String getHex({bool has0x = true, bool hasLeadingZeroes = true}) {
     String hex = "";
@@ -198,6 +227,34 @@ class BigNumberX86 extends BigNumber {
         output.data[j] |= data[i + 1] >> (_platform - elementShift);
       }
     }
+    return output;
+  }
+
+
+  @override
+  BigNumberX86 operator +(Object other) {
+    if (other is! BigNumberX86) {
+      throw ArgumentError("BigNumberX86: unable to ADD with other data than BigNumberX86");
+    }
+
+    if(other.maxBitLength > maxBitLength) {
+      _increaseLength(other.maxBitLength);
+    }
+
+    BigNumberX86 output = BigNumberX86(maxBitLength);
+    output.setHex("0");
+    int carry = 0;
+    for(int i = _length - 1; i >= 0; i--) {
+      int nextCarry  = ((data[i] + other.data[i] + carry) > 0xffffffff) ? 1 : 0;
+      output.data[i] = data[i] + other.data[i] + carry;
+      carry = nextCarry;
+    }
+
+    if(carry == 1) {
+      output._increaseLength(maxBitLength + 32);
+      output.data[0] = carry;
+    }
+
     return output;
   }
 }
