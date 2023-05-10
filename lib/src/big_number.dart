@@ -79,6 +79,8 @@ abstract class BigNumber {
 
   bool operator < (Object other);
 
+  bool operator <= (Object other);
+
   BigNumber operator %(Object other);
 
 }
