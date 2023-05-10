@@ -79,5 +79,33 @@ void main() {
                 "bcdef123456781234567809abcdef09abcdef");
       });
     });
+
+
+    test("multiplies digits", () {
+      BigNumberX86 a = BigNumberX86(32);
+      BigNumberX86 b = BigNumberX86(32);
+
+      BigNumberX86 result = BigNumberX86(64);
+
+      a.setHex("2");
+      b.setHex("55555555");
+      result.setHex("00000000aaaaaaaa");
+
+      expect(a * b, result, reason: "$a * $b is not equal to $result");
+    });
+
+
+    test("multiplies digits from given test case", () {
+      BigNumberX86 a = BigNumberX86(128);
+      BigNumberX86 b = BigNumberX86(128);
+
+      BigNumberX86 result = BigNumberX86(256);
+
+      a.setHex("7d7deab2affa38154326e96d350deee1");
+      b.setHex("97f92a75b3faf8939e8e98b96476fd22");
+      result.setHex("4a7f69b908e167eb0dc9af7bbaa5456039c38359e4de4f169ca10c44d0a416e2");
+
+      expect(a * b, result, reason: "$a * $b is not equal to $result");
+    });
   });
 }
