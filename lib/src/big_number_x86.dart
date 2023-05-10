@@ -156,7 +156,7 @@ class BigNumberX86 extends BigNumber {
     }
 
     if (positions > _maxBitLength) {
-      throw UnimplementedError("BigNumberX86: shifting on negative positions is not implemented yet");
+      throw ArgumentError("BigNumberX86: shifting more positions then variable length is pointless");
     }
 
     BigNumberX86 output = BigNumberX86(maxBitLength);

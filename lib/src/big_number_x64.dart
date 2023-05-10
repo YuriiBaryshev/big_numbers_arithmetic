@@ -174,7 +174,7 @@ class BigNumberX64 extends BigNumber {
     }
 
     if (positions > _maxBitLength) {
-      throw UnimplementedError("BigNumberX64: shifting on negative positions is not implemented yet");
+      throw ArgumentError("BigNumberX64: shifting more positions then variable length is pointless");
     }
 
     BigNumberX64 output = BigNumberX64(maxBitLength);
