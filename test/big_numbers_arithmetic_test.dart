@@ -76,6 +76,7 @@ void main() {
     });
   });
 
+
   group("Bitwise and arithmetic operations of", () {
     for (String implementation in ["BigNumberX86", "BigNumberX64"]) {
       group(implementation, () {
@@ -216,6 +217,15 @@ void main() {
           expect(bn1 + allOnes, number2pow129, reason: "$bn1 + $allOnes is not "
               "equal $number2pow129");
           });
+
+
+        test("subtracting for 128 bit", () {
+          expect(bn1 - zero, bn1, reason: "$bn1 + $zero is not equal $bn1");
+          expect(allOnes - zero, allOnes, reason: "$allOnes - $zero is not equal $allOnes");
+          expect(allOnes - bn1, bn2, reason: "$allOnes - $bn1 is not equal $bn2");
+          expect(allA - all5, all5, reason: "$allA - $all5 is not equal $all5");
+          expect(zero - allOnes, bn1, reason: "$zero - $allOnes is not equal $bn1");
+        });
       });
     }
   });
