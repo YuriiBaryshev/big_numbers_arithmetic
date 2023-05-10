@@ -80,7 +80,8 @@ void main() {
     for (String implementation in ["BigNumberX86", "BigNumberX64"]) {
       group(implementation, () {
         late BigNumber bn1, bn2, zero, allOnes, allA, all5,
-            allOnesShifted1PositionRight, allOnesShifted42PositionRight;
+            allOnesShifted1PositionRight, allOnesShifted42PositionRight,
+            allOnesShifted42PositionsLeft;
 
         setUp(() {
           switch (implementation) {
@@ -94,6 +95,7 @@ void main() {
                 all5 = BigNumberX86(128);
                 allOnesShifted1PositionRight = BigNumberX86(128);
                 allOnesShifted42PositionRight = BigNumberX86(128);
+                allOnesShifted42PositionsLeft = BigNumberX86(128);
                 break;
               }
             case "BigNumberX64" :
@@ -106,6 +108,8 @@ void main() {
                 all5 = BigNumberX64(128);
                 allOnesShifted1PositionRight = BigNumberX64(128);
                 allOnesShifted42PositionRight = BigNumberX64(128);
+                allOnesShifted42PositionsLeft = BigNumberX64(128);
+
                 break;
               }
             default:
@@ -125,6 +129,8 @@ void main() {
 
           allOnesShifted1PositionRight.setHex("7fffffffffffffffffffffffffffffff");
           allOnesShifted42PositionRight.setHex("00000000003fffffffffffffffffffff");
+
+          allOnesShifted42PositionsLeft.setHex("fffffffffffffffffffffc0000000000");
         });
 
 
@@ -170,6 +176,7 @@ void main() {
 
 
         test("shift right for 128 bit", () {
+          expect(zero >> 1, zero, reason: "$zero shifted right 1 position is not equal $zero");
           expect(bn1 >> 1, zero, reason: "$bn1 shifted right 1 position is not equal $zero");
           expect(allOnes >> 1, allOnesShifted1PositionRight, reason: "$allOnes shifted right 1"
               " position is not equal $allOnesShifted1PositionRight");
@@ -181,6 +188,19 @@ void main() {
               " position is not equal $all5");
           expect(allA >> 71, all5 >> 70, reason: "$allA shifted right 71"
               " position is not equal $all5 shifted right 70 positions");
+        });
+
+
+        test("shift left for 128 bit", () {
+          expect(zero << 1, zero, reason: "$zero shifted left 1 position is not equal $zero");
+          expect(allOnes << 1, bn2, reason: "$allOnes shifted left 1"
+              " position is not equal $bn2");
+          expect(allOnes << 42, allOnesShifted42PositionsLeft, reason: "$allOnes "
+              "shifted left 42 position is not equal $allOnesShifted42PositionsLeft");
+          expect(all5 << 1, allA, reason: "$all5 shifted left 1"
+              " position is not equal $allA");
+          expect(allA << 70, all5 << 71, reason: "$allA shifted left 70"
+              " position is not equal $all5 shifted left 71 positions");
         });
       });
     }
