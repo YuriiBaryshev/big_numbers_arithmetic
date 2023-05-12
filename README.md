@@ -3,38 +3,39 @@ Package that implements big numbers arithmetic for Dart language
 ## Features
 
 Implements `BigNumberX86` and `BigNumberX64` data types as well as implemnetation design pattern factory method for quick usage of these types.
+
 Features supported for BigNumberX86:
-1 'getHex' - with options for adding `0x` encoding marker and showing/hiding leading zeros
-2 'setHex' - irrelevant to presence or absence of `0x` marker
-3 '~'  inversion operator
-4 '^' XOR operator
-5 '|' or operator
-6 '&' and operator
-7 '>>' rightwise linear shift operator
-8 '<<' leftwise lenear shift operator
-9 '+' add operator
-10 '-' subtract operator
-11 '<' lesser operator
-12 '<=' lesser equal operator
-13 '==' equal operator
-14 '%' getting reminder operator
-15 '*' multiplicaton operator
+1. 'getHex' - with options for adding `0x` encoding marker and showing/hiding leading zeros
+2. 'setHex' - irrelevant to presence or absence of `0x` marker
+3. '~'  inversion operator
+4. '^' XOR operator
+5. '|' or operator
+6. '&' and operator
+7. '>>' rightwise linear shift operator
+8. '<<' leftwise lenear shift operator
+9. '+' add operator
+10. '-' subtract operator
+11. '<' lesser operator
+12. '<=' lesser equal operator
+13. '==' equal operator
+14. '%' getting reminder operator
+15. '*' multiplicaton operator
 
 Features supported for BigNumberX64:
-1 'getHex' - with options for adding `0x` encoding marker and showing/hiding leading zeros
-2 'setHex' - irrelevant to presence or absence of `0x` marker
-3 '~'  inversion operator
-4 '^' XOR operator
-5 '|' or operator
-6 '&' and operator
-7 '>>' rightwise linear shift operator
-8 '<<' leftwise lenear shift operator
-9 '+' add operator
-10 '-' subtract operator
-11 '<' lesser operator
-12 '<=' lesser equal operator
-13 '==' equal operator
-14 '%' getting reminder operator
+1. 'getHex' - with options for adding `0x` encoding marker and showing/hiding leading zeros
+2. 'setHex' - irrelevant to presence or absence of `0x` marker
+3. '~'  inversion operator
+4. '^' XOR operator
+5. '|' or operator
+6. '&' and operator
+7. '>>' rightwise linear shift operator
+8. '<<' leftwise lenear shift operator
+9. '+' add operator
+10. '-' subtract operator
+11. '<' lesser operator
+12. '<=' lesser equal operator
+13. '==' equal operator
+14. '%' getting reminder operator
 
 Method factory has such methods:
 1. createBigNumberX86
